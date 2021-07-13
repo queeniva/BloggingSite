@@ -17,41 +17,43 @@ app.set('view engine', 'ejs');
 const Posts = [];
 
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 app.get('/', function (req, res) {
-  res.render("home",{homeContent:homeStartingContent, homePost:Posts});
+  res.render("home", { homeContent: homeStartingContent, homePost: Posts });
   // console.log(Posts);
 });
 
 app.get('/about', (req, res) => {
-  res.render('about', {contentAbout:aboutContent});
- });
+  res.render('about', { contentAbout: aboutContent });
+});
 
- app.get('/contact', (req, res) => {
-  res.render('contact', {contentContact:contactContent});
- });
+app.get('/contact', (req, res) => {
+  res.render('contact', { contentContact: contactContent });
+});
 
- app.get('/compose', (req, res) => {
+app.get('/compose', (req, res) => {
   res.render('compose');
- });
+});
 
- app.get("/post/:news", function(req, res){
-   const parameter = _.lowerCase(req.params.news)
-   for( let i = 0; i< Posts.length; i++){
-     const postTitle = _.lowerCase(Posts[i].title)
-     if(parameter == postTitle){
-       console.log("match Found")
-       console.log(parameter)
-     }else{
-       console.log("match not found")
-     }
-   }
- })
+app.get("/post", function (req, res) {
+  res.render('post', { homePost: Posts })
+});
 
- app.post("/compose", function (req, res) {
-  const post = {title:req.body.title, bodypost:req.body.bodypost};
+app.get("/post/:news", function (req, res) {
+  const parameter = _.lowerCase(req.params.news)
+
+  for (let i = 0; i < Posts.length; i++) {
+    const postTitle = _.lowerCase(Posts[i].title)
+    if (parameter == postTitle) {
+      res.render('post', { homePost: Posts[i] })
+    }
+  }
+});
+
+app.post("/compose", function (req, res) {
+  const post = { title: req.body.title, bodypost: req.body.bodypost };
   Posts.push(post)
   res.redirect('/');
 });
@@ -68,6 +70,6 @@ app.get('/about', (req, res) => {
 
 
 
-app.listen(3000, function() {
+app.listen(3000, function () {
   console.log("Server started on port 3000");
 });

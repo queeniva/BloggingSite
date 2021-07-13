@@ -1,11 +1,18 @@
 <%- include('partials/header.ejs'); %>
 
     <h1>I am the Home respect me ok</h1>
-    <p> <%= homeContent %> </p>
-        <% homePost.forEach(function(post){ %>
-            <h1> <%= post.title %></h1>
-            <p><%= post.bodypost %></p>
-       <% }) %>
+    <p>
+        <%= homeContent %>
+    </p>
+    <% homePost.forEach(function(post){ %>
+        <h1>
+            <%= post.title %>
+        </h1>
+        <p>
+            <%= post.bodypost.slice(0,100)+ "..." %> 
+            <a href="/post/<%= post.title %>">Read More</a>
+        </p>
+        <% }) %>
 
 
-    <%- include('partials/footer.ejs'); %>
+            <%- include('partials/footer.ejs'); %>
